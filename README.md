@@ -10,7 +10,7 @@ This library is packaged as a UMD module, hence you can use it directly
 from JavaScript within a browser. To do so, you can simply include the bundle file from github's release page:
 
 ```html
-<script src="https://github.com/HdrHistogram/HdrHistogramWidget/releases/download/v1.0.0/hdr-histogram-widget.umd.js"></script>
+<script src="https://github.com/HdrHistogram/HdrHistogramWidget/releases/download/1.0.0/hdr-histogram-widget.umd.js"></script>
 ```
 
 If you prefer using npm:

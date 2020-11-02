@@ -2,6 +2,8 @@
 
 The purpose of this JavaScript widget is to easily visualize latencies recorded with HdrHistogram. The widget does not depend on any dependencies except HdrHistogramJS and hence may be used on any website.
 
+![screenshot](screenshot.png)
+
 ## Usage
 
 This library is packaged as a UMD module, hence you can use it directly
@@ -17,11 +19,15 @@ If you prefer using npm:
   npm i hdr-histogram-widget
 ```
 
-Then there's a HdrHistogramWidget class with a convenient _display()_ method in the global context. You need to provide base64 encoded histogram data as shown below:
+Then you can use the HdrHistogramWidget class which provides a convenient static method _display()_:
 
 ```ts
+import HdrHistogramWidget from "hdr-histogram-widget"; // not needed with the umd package
+
 HdrHistogramWidget.display("HISTFAAAATR42i1M...");
 ```
+
+You need to provide a base64 encoded histogram to this _display()_ method.
 
 If you need to display several histograms, you need to provide an object as shown below:
 

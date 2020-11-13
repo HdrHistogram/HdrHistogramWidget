@@ -1,24 +1,27 @@
 import { decodeFromCompressedBase64, initWebAssembly } from "hdr-histogram-js";
 
-const loadGoogleChart = () =>
-  new Promise((resolve) => {
+let loadGoogleChartPromise: Promise<void> | undefined = undefined;
+const loadGoogleChart = () => {
+  if (loadGoogleChartPromise) {
+    return loadGoogleChartPromise;
+  }
+  loadGoogleChartPromise = new Promise((resolve) => {
     const body = document.getElementsByTagName("body")[0];
     const script = document.createElement("script");
     script.src = "https://www.google.com/jsapi";
     script.type = "text/javascript";
-    console.log("start load google");
     script.onload = function () {
-      console.log("load google");
       window.google.charts.load("current", {
         packages: ["corechart"],
       });
       window.google.charts.setOnLoadCallback(() => {
-        console.log("end load google");
         resolve();
       });
     };
     body.appendChild(script);
   });
+  return loadGoogleChartPromise;
+};
 
 export default class HdrHistogramWidget {
   maxPercentile: number;
@@ -29,8 +32,28 @@ export default class HdrHistogramWidget {
     return Promise.all([loadGoogleChart(), initWebAssembly()]);
   }
 
+  static async parseUrl(locationWithData: Location = location) {
+    let unitText: string = "milliseconds";
+    const params = new URLSearchParams(locationWithData.search);
+    let hasData = false;
+    const data: any = {};
+    params.forEach((value, key) => {
+      if (key === "unitText") {
+        unitText = value;
+      } else if (key.startsWith("data.")) {
+        hasData = true;
+        data[key.substring(5)] = value;
+      }
+    });
+    if (!hasData) {
+      throw new Error("No data found in url '" + locationWithData.href + "'");
+    }
+
+    return HdrHistogramWidget.display(data, unitText);
+  }
+
   static async display(
-    data: any = location,
+    data: any,
     unitText: string = "milliseconds",
     chartElement: HTMLElement = document.body
   ) {
@@ -41,22 +64,7 @@ export default class HdrHistogramWidget {
     }
 
     unitText = unitText || "milliseconds";
-    if (data.search && data.protocol) {
-      const params = new URLSearchParams(data.search);
-      let hasData = false;
-      data = {};
-      params.forEach((value, key) => {
-        if (key === "unitText") {
-          unitText = value;
-        } else if (key.startsWith("data.")) {
-          hasData = true;
-          data[key.substring(5)] = value;
-        }
-      });
-      if (!hasData) {
-        throw new Error("No data found in '" + params + "'");
-      }
-    }
+
     const widget = new HdrHistogramWidget(data, unitText, chartElement);
     widget.render();
     return widget;
@@ -70,12 +78,10 @@ export default class HdrHistogramWidget {
     let series: any[][] = [];
     Object.keys(data).forEach((name) => {
       if (data[name].startsWith("HIST")) {
-        console.log("Will try base64 decoding on " + name);
         const histogram = decodeFromCompressedBase64(data[name], 32, true);
         const histoOutput = histogram.outputPercentileDistribution();
         series = appendDataSeries(histoOutput, name, series);
       } else {
-        console.log("Good old histogram output parsing for " + name);
         series = appendDataSeries(data[name], name, series);
       }
     });

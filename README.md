@@ -2,7 +2,7 @@
 
 The purpose of this JavaScript widget is to easily visualize latencies recorded with HdrHistogram. The widget does not depend on any dependencies except HdrHistogramJS and hence may be used on any website.
 
-![screenshot](screenshot.png)
+![screenshot](https://raw.githubusercontent.com/HdrHistogram/HdrHistogramWidget/master/screenshot.png)
 
 This widget allows to plot histograms encoded to base64, whatever the HdrHistogram language/platform used (Java, JS, C#, Rust, Go...)
 

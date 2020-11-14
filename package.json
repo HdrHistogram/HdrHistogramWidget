@@ -1,6 +1,6 @@
 {
   "name": "hdr-histogram-widget",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Plotter widget for HdrHistogram",
   "main": "dist/index.js",
   "browser": "dist/hdr-histogram-widget.umd.js",

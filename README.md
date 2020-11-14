@@ -4,6 +4,8 @@ The purpose of this JavaScript widget is to easily visualize latencies recorded 
 
 ![screenshot](screenshot.png)
 
+This widget allows to plot histograms encoded to base64, whatever the HdrHistogram language/platform used (Java, JS, C#, Rust, Go...)
+
 ## Usage
 
 ### Passing data in a URL

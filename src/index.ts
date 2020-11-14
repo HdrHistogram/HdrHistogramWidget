@@ -1,3 +1,10 @@
+/*
+ * Most of the code below comes from the JS plotter written by
+ * Gil Tene, described in
+ * https://github.com/HdrHistogram/HdrHistogram
+ * and released to the public domain, as explained at
+ * http://creativecommons.org/publicdomain/zero/1.0/
+ */
 import { decodeFromCompressedBase64, initWebAssembly } from "hdr-histogram-js";
 
 let loadGoogleChartPromise: Promise<void> | undefined = undefined;

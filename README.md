@@ -53,7 +53,7 @@ HdrHistogramWidget.display({
 });
 ```
 
-By default the graph is displayed within the _body_ of the page and the unit is 'milliseconds'. If the default behavior does not fit your needs, you can use two optionnal parameters:
+By default the graph is displayed within the _body_ of the page and the unit is 'milliseconds'. If the default behavior does not fit your needs, you can use two optional parameters:
 
 ```ts
 const data = {
